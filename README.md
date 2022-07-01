@@ -24,3 +24,39 @@ az ad sp create-for-rbac sp-porter-sample -ojsonc
 Once you've create the Service Principal, go to Azure AD and assign the `Contributor` role to it on the scope of the desired Azure Subscription. Additionally, the Service Principal must be able to create, modify, and delete role assignments. This could be achieved by creating a custom role in Azure AD and assigning this to the service principal (also on the scope of the subscription).
 
 Role Assignments are required depending on the actual infrastructure provisioned by Terraform as part of the CNAB bundle.
+
+## Install Porter
+
+Install porter according to [the installation guide](https://porter.sh/install/).
+
+## Specify parameters and credentials
+
+You can generate parameter and credential sets using `porter` CLI:
+
+```bash
+cd bundle
+# Generate Parameters
+porter parameter generate --file porter.yaml
+# the cli will guide you through specifying the parameters
+# and store the parameter set with the name porter-azure-sample
+
+# Generate Credentials
+porter credentials generate --file porter.yaml
+# the cli will guide you through specifying the credentials
+# and store the credential set with the name porter-azure-sample
+```
+
+## Install the application
+
+```bash
+# Install the bundle and specify the credential set (-c) and parameter set (-p)
+porter install --file porter.yaml -c porter-azure-sample -p porter-azure-sample
+```
+
+## Uninstall the application
+
+To uninstall the application you can invoke
+
+```bash
+porter install --file porter.yaml -c porter-azure-sample -p porter-azure-sample
+```
