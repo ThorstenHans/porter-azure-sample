@@ -53,6 +53,22 @@ porter credentials generate --file porter.yaml
 porter install --file porter.yaml -c porter-azure-sample -p porter-azure-sample
 ```
 
+## Call the sample API
+
+Once installation has finished you can call the sample API via `curl` to get the IP address, you've to look for the IP address assigned to NGINX ingress. This can be achieved using Azure Portal or Azure CLI:
+
+```bash
+az aks get-credentials -n aks-porter-sample-2022 -g rg-porter-sample
+
+kubectl get svc -A
+```
+
+From the output copy the public IP address of the ingress load balancer and curl the `/products` endpoint:
+
+```bash
+curl http://<INGRESS_IP>/products | jq
+```
+
 ## Uninstall the application
 
 To uninstall the application you can invoke
